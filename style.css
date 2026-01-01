@@ -1,0 +1,146 @@
+ /* ============================
+   FUNDAL TRANSPARENT
+============================ */
+body {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    font-family: 'Orbitron', sans-serif;
+    user-select: none;
+    overflow: hidden;
+}
+
+#mask-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: top left;
+    width: 100%;
+    text-align: center;
+}
+
+/* ============================
+   TITLU
+============================ */
+#title {
+    font-size: 42px;
+    font-weight: 900;
+    color: #00ff66;
+    text-shadow: 0 0 15px #00ff66, 0 0 30px #00ff66;
+    margin-top: 10px;
+}
+
+/* ============================
+   SEMNĂTURĂ
+============================ */
+#signature {
+    font-size: 16px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* ============================
+   TIMER CIRCULAR MIC
+============================ */
+#timer-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 10px auto;
+}
+
+#timer-svg {
+    transform: rotate(-90deg);
+}
+
+#timer-bar {
+    stroke-width: 10;
+    fill: none;
+    stroke: #ff00ff;
+    stroke-linecap: round;
+}
+
+#timer-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 42px;
+    font-weight: 900;
+}
+
+/* ============================
+   TOP ZILNIC — CUTIE FIXĂ
+============================ */
+#ticker {
+    width: 80%;
+    margin: 10px auto 20px auto;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: rgba(0,0,0,0.35);
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 22px;
+    font-weight: 700;
+    position: relative;
+}
+
+#ticker span {
+    display: inline-block;
+    animation: tickerScroll 12s linear infinite;
+}
+
+@keyframes tickerScroll {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+/* ============================
+   CASETE LITERE
+============================ */
+#word-container {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.word-block {
+    display: flex;
+    gap: 6px;
+}
+
+.letter-box {
+    width: 38px;
+    height: 48px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    font-weight: 800;
+    background: rgba(0,0,0,0.4);
+    border: 2px solid;
+    box-shadow: 0 0 12px currentColor;
+}
+
+/* ============================
+   CATEGORIE / HINT / STATUS
+============================ */
+#category {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+#hint {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+#status {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}

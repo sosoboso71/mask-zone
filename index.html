@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>MASK Club Overlay</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div id="mask-overlay">
+
+    <!-- TITLU -->
+    <div id="title">MASK Club Music&Game</div>
+
+    <!-- SEMNĂTURĂ -->
+    <div id="signature">Created by Mask (Sorin)</div>
+
+    <!-- TIMER CIRCULAR -->
+    <div id="timer-container">
+        <svg id="timer-svg" width="120" height="120">
+            <circle id="timer-bar" cx="60" cy="60" r="50"></circle>
+        </svg>
+        <div id="timer-text"></div>
+    </div>
+
+    <!-- TOP ZILNIC -->
+    <div id="ticker"></div>
+
+    <!-- CASETE LITERE -->
+    <div id="word-container"></div>
+
+    <!-- CATEGORIE -->
+    <div id="category"></div>
+
+    <!-- HINT -->
+    <div id="hint"></div>
+
+    <!-- STATUS -->
+    <div id="status"></div>
+
+</div>
+
+
+<!-- 🔥 HOTSPOT INVIZIBIL (dreapta sus) -->
+<div id="adminHotspot"></div>
+
+<!-- 🔥 PANOU ADMIN ASCUNS -->
+<div id="adminPanel">
+    <h2>MASK CLUB — ADMIN PANEL</h2>
+
+    <div id="correctAnswerBox">
+        Răspuns corect: <span id="correctAnswerValue">?</span>
+    </div>
+
+    <h3>Chat (# only)</h3>
+    <div id="chatConsole"></div>
+
+    <div id="selectedBox">
+        Selectat: <span id="selectedUser">nimeni</span> — <span id="selectedAnswer">-</span>
+    </div>
+
+    <button id="markCorrectBtn">Marchează răspuns corect</button>
+    <button id="nextQuestionBtn">Next Question</button>
+    <button id="resetGameBtn">Reset Game</button>
+</div>
+
+
+<style>
+/* ============================
+   HOTSPOT INVIZIBIL
+============================ */
+#adminHotspot {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 9999;
+    background: transparent;
+}
+
+/* ============================
+   PANOU ADMIN
+============================ */
+#adminPanel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: 600px;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.92);
+    border: 2px solid #00ff66;
+    padding: 20px;
+    display: none;
+    z-index: 99999;
+    color: #00ff66;
+    font-family: monospace;
+    overflow-y: auto;
+}
+
+#chatConsole {
+    background: #000;
+    border: 1px solid #00ff66;
+    padding: 10px;
+    height: 250px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.chatLine {
+    padding: 3px 0;
+    cursor: pointer;
+}
+
+.chatLine:hover {
+    background: rgba(0,255,100,0.2);
+}
+
+#selectedBox {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #00ff66;
+}
+
+button {
+    background: #00ff66;
+    color: black;
+    padding: 10px 15px;
+    border: none;
+    margin-right: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #00cc55;
+}
+
+/* ============================
+   LITERE DE TIPAR (UPPERCASE)
+   DOAR PENTRU: HINT, CATEGORIE, CASETE
+============================ */
+#category,
+#hint,
+.letter-box {
+    text-transform: uppercase !important;
+}
+</style>
+
+
+<script>
+// 🔥 DESCHIDERE PANOU LA CLICK PE HOTSPOT
+document.getElementById("adminHotspot").onclick = () => {
+    document.getElementById("adminPanel").style.display = "block";
+};
+
+// 🔥 ÎNCHIDERE PANOU LA CLICK ÎN AFARA LUI
+document.addEventListener("click", (e) => {
+    const panel = document.getElementById("adminPanel");
+    const hotspot = document.getElementById("adminHotspot");
+
+    if (!panel.contains(e.target) && e.target !== hotspot) {
+        panel.style.display = "none";
+    }
+});
+
+// 🔥 CHAT SIMPLU — DOAR MESAJE CU #
+function adminAddChatMessage(user, message) {
+    if (!message.startsWith("#")) return;
+
+    const consoleDiv = document.getElementById("chatConsole");
+    const line = document.createElement("div");
+    line.className = "chatLine";
+    line.textContent = `[${user}] ${message}`;
+
+    // CLICK PE MESAJ → SELECTEAZĂ JUCĂTORUL
+    line.onclick = () => {
+        document.getElementById("selectedUser").textContent = user;
+        document.getElementById("selectedAnswer").textContent = message.replace("#", "");
+    };
+
+    consoleDiv.appendChild(line);
+    consoleDiv.scrollTop = consoleDiv.scrollHeight;
+}
+
+// 🔥 BUTON: MARCHEAZĂ RĂSPUNS CORECT
+document.getElementById("markCorrectBtn").onclick = () => {
+    const user = document.getElementById("selectedUser").textContent;
+    const answer = document.getElementById("selectedAnswer").textContent;
+
+    if (user === "nimeni") return;
+
+    if (typeof processAnswer === "function") {
+        processAnswer(user, answer);
+    }
+};
+
+// 🔥 BUTON: NEXT QUESTION
+document.getElementById("nextQuestionBtn").onclick = () => {
+    if (typeof nextQuestion === "function") nextQuestion();
+};
+
+// 🔥 BUTON: RESET GAME
+document.getElementById("resetGameBtn").onclick = () => {
+    if (typeof resetGame === "function") resetGame();
+};
+
+// 🔥 SETARE RĂSPUNS CORECT ÎN PANOU
+function adminSetCorrectAnswer(ans) {
+    document.getElementById("correctAnswerValue").textContent = ans;
+}
+</script>
+
+
+<script src="game.js"></script>
+</body>
+</html>
