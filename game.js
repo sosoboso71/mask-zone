@@ -1,4 +1,4 @@
- let words = [];
+let words = [];
 let currentWord = "";
 let currentCategory = "";
 let currentHint = "";
@@ -30,7 +30,7 @@ fetch("config.json")
         words = data;
         loadScores();
         startNewRound();
-        connectWebSocket();
+        connectWebSocket(); // ← AICI TREBUIE SĂ FIE
     });
 
 // ===============================
@@ -225,6 +225,41 @@ function updateStatus(msg) {
 }
 
 // ===============================
+// WEBSOCKET — EXACT UNDE ERA LA TINE
+// ===============================
+function connectWebSocket() {
+    const socket = new WebSocket("ws://localhost:62024");
+
+    socket.onopen = () => console.log("Conectat la Indofinity!");
+
+    socket.onmessage = (event) => {
+        try {
+            const packet = JSON.parse(event.data);
+
+            if (packet.event === "chat") {
+                const nickname =
+                    packet.data.nickname ||
+                    packet.data.uniqueId ||
+                    packet.data.displayName ||
+                    packet.data.username ||
+                    "necunoscut";
+
+                const message = packet.data.comment || "";
+
+                handleChatMessage(nickname, message);
+            }
+        } catch (err) {
+            console.error("Eroare WS:", err);
+        }
+    };
+
+    socket.onclose = () => {
+        console.log("WS închis, reconectare...");
+        setTimeout(connectWebSocket, 2000);
+    };
+}
+
+// ===============================
 // CHAT
 // ===============================
 function handleChatMessage(nickname, message) {
@@ -380,46 +415,10 @@ function applyNeonColors() {
 }
 
 // ===============================
-// SUPRASCRIERE RUNDĂ
+// SUPRASCRIERE RUNDĂ — ULTIMUL
 // ===============================
 const originalStartNewRound = startNewRound;
 startNewRound = function () {
     originalStartNewRound();
     setTimeout(applyNeonColors, 50);
-};
-
-// ===============================
-// WEBSOCKET (LA FINAL, CA ÎN CODUL TĂU)
-// ===============================
-function connectWebSocket() {
-    const socket = new WebSocket("ws://localhost:62024");
-
-    socket.onopen = () => console.log("Conectat la Indofinity!");
-
-    socket.onmessage = (event) => {
-        try {
-            const packet = JSON.parse(event.data);
-
-            if (packet.event === "chat") {
-                const nickname =
-                    packet.data.nickname ||
-                    packet.data.uniqueId ||
-                    packet.data.displayName ||
-                    packet.data.username ||
-                    "necunoscut";
-
-                const message = packet.data.comment || "";
-
-                handleChatMessage(nickname, message);
-            }
-        } catch (err) {
-            console.error("Eroare WS:", err);
-        }
-    };
-
-    socket.onclose = () => {
-        console.log("WS închis, reconectare...");
-        setTimeout(connectWebSocket, 2000);
-    };
-}
-
+}; 
