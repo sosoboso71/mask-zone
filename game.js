@@ -267,25 +267,31 @@ function connectWebSocket() {
 // CHAT
 // ===============================
 function handleChatMessage(nickname, message) {
-    if (!message.startsWith("#")) return;
-    const cmd = message.trim().toLowerCase();
+    const msg = message.trim().toLowerCase();
 
-    if (cmd === "#global") return showGlobalLeaderboard();
-    if (cmd === "#scor") return showPlayerScore(nickname);
+    // 🔥 Comenzi cu punct
+    if (msg.startsWith(".")) {
+        const cmd = msg.substring(1);
 
+        if (cmd === "global") return showGlobalLeaderboard();
+        if (cmd === "scor")   return showPlayerScore(nickname);
+        if (cmd === "top")    return showDailyTop();
+
+        return;
+    }
+
+    // 🔥 Ghicit direct, fără #, fără parțial
     if (!roundActive) return;
 
-    let guess = message.substring(1).trim().toLowerCase();
+    const guess = msg;
     if (!guess) return;
 
     const normalizedWord = currentWord;
 
-    if (guess === normalizedWord) return handleCorrectGuess(nickname);
-
-    const firstWord = normalizedWord.split(" ")[0];
-    if (guess.length >= 3 && firstWord.startsWith(guess))
-        return handleCorrectGuess(nickname, true);
-}
+    if (guess === normalizedWord) {
+        return handleCorrectGuess(nickname);
+    }
+} 
 
 // ===============================
 // GHICIRE
@@ -444,4 +450,5 @@ startNewRound = function () {
     originalStartNewRound();
     setTimeout(applyNeonColors, 50);
 }; 
+
 
