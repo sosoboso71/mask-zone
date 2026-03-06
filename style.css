@@ -1,4 +1,4 @@
- /* ============================
+/* ============================
    FUNDAL TRANSPARENT
 ============================ */
 body {
@@ -70,7 +70,7 @@ body {
 }
 
 /* ============================
-   TOP ZILNIC — CUTIE FIXĂ
+   TOP ZILNIC — BANDA ASCUNSĂ
 ============================ */
 #ticker {
     width: 80%;
@@ -83,6 +83,9 @@ body {
     font-size: 22px;
     font-weight: 700;
     position: relative;
+
+    /* 🔥 Banda este ascunsă implicit */
+    display: none;
 }
 
 #ticker span {
@@ -143,4 +146,4 @@ body {
     font-size: 22px;
     font-weight: 700;
     margin-bottom: 20px;
-}
+} 
