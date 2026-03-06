@@ -51,35 +51,7 @@ body {
     text-shadow: 0 0 10px #ffff66;
 }
 
-/* ============================
-   TOP ZILNIC — BANDA ASCUNSĂ
-============================ */
-#ticker {
-    width: 80%;
-    margin: 10px auto 20px auto;
-    padding: 8px 12px;
-    border-radius: 8px;
-    background: rgba(0,0,0,0.35);
-    overflow: hidden;
-    white-space: nowrap;
-    font-size: 22px;
-    font-weight: 700;
-    position: relative;
-    display: none;
-    color: #ffffcc;
-    text-shadow: 0 0 10px #ffff66;
-}
-
-#ticker span {
-    display: inline-block;
-    animation: tickerScroll 12s linear infinite;
-}
-
-@keyframes tickerScroll {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-}
-
+ 
 /* ============================
    CASETE LITERE — MODIFICATE
 ============================ */
@@ -143,3 +115,4 @@ body {
     color: #ffffcc;
     text-shadow: 0 0 10px #ffff66;
 } 
+
