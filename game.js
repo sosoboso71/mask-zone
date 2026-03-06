@@ -216,7 +216,12 @@ function revealFullWord() {
 // ===============================
 function updateStatus(msg) {
     const el = document.getElementById("status");
-    if (el) el.innerText = msg;
+    if (el) {
+        el.innerText = msg;
+        el.style.color = "#ffffff";
+        el.style.fontWeight = "900";
+        el.style.textShadow = "0 0 10px #fff";
+    }
 }
 
 // ===============================
@@ -417,3 +422,4 @@ function connectWebSocket() {
         setTimeout(connectWebSocket, 2000);
     };
 }
+
