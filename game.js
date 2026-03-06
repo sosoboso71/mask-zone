@@ -323,7 +323,7 @@ function handleCorrectGuess(nickname, partial = false) {
 }
 
 // ===============================
-// CLASAMENTE (MODIFICATE)
+// CLASAMENTE (NOU) — FĂRĂ TICKER
 // ===============================
 function showGlobalLeaderboard() {
     const entries = Object.entries(globalScores)
@@ -336,10 +336,6 @@ function showGlobalLeaderboard() {
     });
 
     updateStatus(text);
-
-    const ticker = document.getElementById("ticker");
-    ticker.style.display = "block";
-    setTimeout(() => ticker.style.display = "none", 7000);
 }
 
 function showPlayerScore(nickname) {
@@ -350,11 +346,6 @@ function showPlayerScore(nickname) {
 
     if (idx === -1) {
         updateStatus(`${nickname} nu are puncte.`);
-
-        const ticker = document.getElementById("ticker");
-        ticker.style.display = "block";
-        setTimeout(() => ticker.style.display = "none", 7000);
-
         return;
     }
 
@@ -362,32 +353,20 @@ function showPlayerScore(nickname) {
     const position = idx + 1;
 
     updateStatus(`${nickname}: locul ${position}, ${score}p`);
-
-    const ticker = document.getElementById("ticker");
-    ticker.style.display = "block";
-    setTimeout(() => ticker.style.display = "none", 7000);
 }
 
-// ===============================
-// TICKER
-// ===============================
-function updateTicker() {
-    const ticker = document.getElementById("ticker");
-    if (!ticker) return;
-
+function showDailyTop() {
     const entries = Object.entries(dailyScores)
         .sort((a, b) => b[1] - a[1])
-        .slice(0, 10);
+        .slice(0, 20);
 
-    if (entries.length === 0) {
-        ticker.innerHTML = "<span>TOP ZILNIC: încă nu există puncte.</span>";
-        return;
-    }
+    let text = "TOP ZILNIC:\n";
+    entries.forEach(([name, score], i) => {
+        text += `${i + 1}. ${name} — ${score}p\n`;
+    });
 
-    let parts = entries.map(([name, score], i) => `${i + 1}. ${name} — ${score}p`);
-    ticker.innerHTML = "<span>TOP ZILNIC: " + parts.join(" | ") + "</span>";
+    updateStatus(text);
 }
-
 // ===============================
 // UTILITARE
 // ===============================
@@ -450,5 +429,6 @@ startNewRound = function () {
     originalStartNewRound();
     setTimeout(applyNeonColors, 50);
 }; 
+
 
 
