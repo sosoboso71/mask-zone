@@ -1,7 +1,4 @@
-// ===============================
-// STATE PRINCIPAL
-// ===============================
-let words = [];
+ let words = [];
 let currentWord = "";
 let currentCategory = "";
 let currentHint = "";
@@ -61,7 +58,7 @@ function loadScores() {
     } catch {
         dailyScores = {};
         globalScores = {};
-    }  
+    }
 }
 
 function saveDailyScores() {
@@ -133,7 +130,6 @@ function startTimer() {
             hintJSONGiven = true;
             document.getElementById("hint").innerText = currentHint;
 
-            // HINT vizibil, alb, gros
             const h = document.getElementById("hint");
             h.style.color = "#ffffff";
             h.style.fontWeight = "900";
@@ -216,44 +212,12 @@ function revealFullWord() {
 }
 
 // ===============================
-// STATUS (MODIFICAT)
+// STATUS
 // ===============================
 function updateStatus(msg) {
     const el = document.getElementById("status");
     if (el) el.innerText = msg;
 }
-
-function connectWebSocket() {
-    const socket = new WebSocket("ws://localhost:62024");
-
-    socket.onopen = () => console.log("Conectat la Indofinity!");
-
-    socket.onmessage = (event) => {
-        try {
-            const packet = JSON.parse(event.data);
-
-            if (packet.event === "chat") {
-                const nickname =
-                    packet.data.nickname ||
-                    packet.data.uniqueId ||
-                    packet.data.displayName ||
-                    packet.data.username ||
-                    "necunoscut";
-
-                const message = packet.data.comment || "";
-
-                handleChatMessage(nickname, message);
-            }
-        } catch (err) {
-            console.error("Eroare WS:", err);
-        }
-    };
-
-    socket.onclose = () => {
-        console.log("WS închis, reconectare...");
-        setTimeout(connectWebSocket, 2000);
-    };
-} 
 
 // ===============================
 // CHAT
@@ -261,7 +225,6 @@ function connectWebSocket() {
 function handleChatMessage(nickname, message) {
     const msg = message.trim().toLowerCase();
 
-    // 🔥 Comenzi cu punct
     if (msg.startsWith(".")) {
         const cmd = msg.substring(1);
 
@@ -272,7 +235,6 @@ function handleChatMessage(nickname, message) {
         return;
     }
 
-    // 🔥 Ghicit direct, fără #, fără parțial
     if (!roundActive) return;
 
     const guess = msg;
@@ -283,7 +245,7 @@ function handleChatMessage(nickname, message) {
     if (guess === normalizedWord) {
         return handleCorrectGuess(nickname);
     }
-} 
+}
 
 // ===============================
 // GHICIRE
@@ -315,7 +277,7 @@ function handleCorrectGuess(nickname, partial = false) {
 }
 
 // ===============================
-// CLASAMENTE (NOU) — FĂRĂ TICKER
+// CLASAMENTE
 // ===============================
 function showGlobalLeaderboard() {
     const entries = Object.entries(globalScores)
@@ -359,6 +321,7 @@ function showDailyTop() {
 
     updateStatus(text);
 }
+
 // ===============================
 // UTILITARE
 // ===============================
@@ -367,7 +330,7 @@ function randomInt(min, max) {
 }
 
 // ===============================
-// NEON RANDOM (HINT EXCLUS)
+// NEON RANDOM
 // ===============================
 function randomNeonColor() {
     const hue = Math.floor(Math.random() * 360);
@@ -379,9 +342,7 @@ function applyNeonColors() {
         signature: document.getElementById("signature"),
         category: document.getElementById("category"),
         timerText: document.getElementById("timer-text"),
-        status: document.getElementById("status"),
-        ticker: document.getElementById("ticker")
-        // HINT-ul NU mai primește neon
+        status: document.getElementById("status")
     };
 
     const timerBar = document.getElementById("timer-bar");
@@ -420,9 +381,39 @@ const originalStartNewRound = startNewRound;
 startNewRound = function () {
     originalStartNewRound();
     setTimeout(applyNeonColors, 50);
-}; 
+};
 
+// ===============================
+// WEBSOCKET (LA FINAL, CA ÎN CODUL TĂU)
+// ===============================
+function connectWebSocket() {
+    const socket = new WebSocket("ws://localhost:62024");
 
+    socket.onopen = () => console.log("Conectat la Indofinity!");
 
+    socket.onmessage = (event) => {
+        try {
+            const packet = JSON.parse(event.data);
 
+            if (packet.event === "chat") {
+                const nickname =
+                    packet.data.nickname ||
+                    packet.data.uniqueId ||
+                    packet.data.displayName ||
+                    packet.data.username ||
+                    "necunoscut";
 
+                const message = packet.data.comment || "";
+
+                handleChatMessage(nickname, message);
+            }
+        } catch (err) {
+            console.error("Eroare WS:", err);
+        }
+    };
+
+    socket.onclose = () => {
+        console.log("WS închis, reconectare...");
+        setTimeout(connectWebSocket, 2000);
+    };
+}
