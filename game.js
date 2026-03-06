@@ -61,8 +61,7 @@ function loadScores() {
     } catch {
         dailyScores = {};
         globalScores = {};
-    }
-    updateTicker();
+    }  
 }
 
 function saveDailyScores() {
@@ -82,7 +81,6 @@ function addPoints(nickname, points) {
 
     saveDailyScores();
     saveGlobalScores();
-    updateTicker();
 }
 
 // ===============================
@@ -93,7 +91,7 @@ function startNewRound() {
     timeLeft = ROUND_DURATION;
 
     hintJSONGiven = false;
-    hintJSONMoment = randomInt(15, 20);
+    hintJSONMoment = randomInt(22, 28);
 
     hint2Given = false;
     hint3Given = false;
@@ -223,12 +221,7 @@ function revealFullWord() {
 function updateStatus(msg) {
     const el = document.getElementById("status");
     if (el) el.innerText = msg;
-
-    // 🔥 Ascunde banda DOAR la mesaje normale
-    if (!msg.startsWith("GLOBAL:") && !msg.includes("locul") && !msg.includes("nu are puncte")) {
-        const ticker = document.getElementById("ticker");
-        ticker.style.display = "none";
-    }
+}
 }
 
 function connectWebSocket() {
@@ -429,6 +422,7 @@ startNewRound = function () {
     originalStartNewRound();
     setTimeout(applyNeonColors, 50);
 }; 
+
 
 
 
