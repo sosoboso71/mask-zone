@@ -1,4 +1,4 @@
- // ===============================
+// ===============================
 // STATE PRINCIPAL
 // ===============================
 let words = [];
@@ -215,11 +215,15 @@ function revealFullWord() {
 }
 
 // ===============================
-// STATUS
+// STATUS (MODIFICAT)
 // ===============================
 function updateStatus(msg) {
     const el = document.getElementById("status");
     if (el) el.innerText = msg;
+
+    // 🔥 Ascunde banda la orice mesaj nou
+    const ticker = document.getElementById("ticker");
+    ticker.style.display = "none";
 }
 
 // ===============================
@@ -298,7 +302,7 @@ function handleCorrectGuess(nickname, partial = false) {
 }
 
 // ===============================
-// CLASAMENTE
+// CLASAMENTE (MODIFICATE)
 // ===============================
 function showGlobalLeaderboard() {
     const entries = Object.entries(globalScores)
@@ -311,6 +315,11 @@ function showGlobalLeaderboard() {
     });
 
     updateStatus(text);
+
+    // 🔥 Afișează banda 7 secunde
+    const ticker = document.getElementById("ticker");
+    ticker.style.display = "block";
+    setTimeout(() => ticker.style.display = "none", 7000);
 }
 
 function showPlayerScore(nickname) {
@@ -319,12 +328,24 @@ function showPlayerScore(nickname) {
 
     const idx = entries.findIndex(([name]) => name === nickname);
 
-    if (idx === -1) return updateStatus(`${nickname} nu are puncte.`);
+    if (idx === -1) {
+        updateStatus(`${nickname} nu are puncte.`);
+
+        const ticker = document.getElementById("ticker");
+        ticker.style.display = "block";
+        setTimeout(() => ticker.style.display = "none", 7000);
+
+        return;
+    }
 
     const score = entries[idx][1];
     const position = idx + 1;
 
     updateStatus(`${nickname}: locul ${position}, ${score}p`);
+
+    const ticker = document.getElementById("ticker");
+    ticker.style.display = "block";
+    setTimeout(() => ticker.style.display = "none", 7000);
 }
 
 // ===============================
@@ -408,5 +429,4 @@ const originalStartNewRound = startNewRound;
 startNewRound = function () {
     originalStartNewRound();
     setTimeout(applyNeonColors, 50);
-
-};
+}; 
