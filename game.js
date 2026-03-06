@@ -226,7 +226,7 @@ function updateStatus(msg) {
 // WEBSOCKET
 // ===============================
 function connectWebSocket() {
-    const socket = new WebSocket("ws://localhost:21213/");
+    const socket = new WebSocket("ws://localhost:62024");
 
     socket.onmessage = (event) => {
         try {
@@ -408,4 +408,5 @@ const originalStartNewRound = startNewRound;
 startNewRound = function () {
     originalStartNewRound();
     setTimeout(applyNeonColors, 50);
+
 };
