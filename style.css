@@ -20,26 +20,6 @@ body {
 }
 
 /* ============================
-   TITLU
-============================ */
-#title {
-    font-size: 42px;
-    font-weight: 900;
-    color: #00ff66;
-    text-shadow: 0 0 15px #00ff66, 0 0 30px #00ff66;
-    margin-top: 10px;
-}
-
-/* ============================
-   SEMNĂTURĂ
-============================ */
-#signature {
-    font-size: 16px;
-    margin-bottom: 20px;
-    font-weight: 600;
-}
-
-/* ============================
    TIMER CIRCULAR MIC
 ============================ */
 #timer-container {
@@ -67,6 +47,8 @@ body {
     transform: translate(-50%, -50%);
     font-size: 42px;
     font-weight: 900;
+    color: #ffffcc;
+    text-shadow: 0 0 10px #ffff66;
 }
 
 /* ============================
@@ -83,9 +65,9 @@ body {
     font-size: 22px;
     font-weight: 700;
     position: relative;
-
-    /* 🔥 Banda este ascunsă implicit */
     display: none;
+    color: #ffffcc;
+    text-shadow: 0 0 10px #ffff66;
 }
 
 #ticker span {
@@ -99,7 +81,7 @@ body {
 }
 
 /* ============================
-   CASETE LITERE
+   CASETE LITERE — MODIFICATE
 ============================ */
 #word-container {
     display: flex;
@@ -121,11 +103,19 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+
     font-size: 28px;
     font-weight: 800;
-    background: rgba(0,0,0,0.4);
-    border: 2px solid;
-    box-shadow: 0 0 12px currentColor;
+
+    /* fundal transparent */
+    background: rgba(0,0,0,0.15);
+
+    /* 🔥 contur neon mai gros */
+    border: 4px solid #ffff66;
+    box-shadow: 0 0 15px #ffff66, 0 0 25px #ffff66;
+
+    /* 🔥 literele din casete */
+    color: #ffffcc;
 }
 
 /* ============================
@@ -135,15 +125,21 @@ body {
     font-size: 26px;
     font-weight: 700;
     margin-bottom: 10px;
+    color: #ffffcc;
+    text-shadow: 0 0 10px #ffff66;
 }
 
 #hint {
     font-size: 20px;
     margin-bottom: 10px;
+    color: #ffffcc;
+    text-shadow: 0 0 10px #ffff66;
 }
 
 #status {
     font-size: 22px;
     font-weight: 700;
     margin-bottom: 20px;
+    color: #ffffcc;
+    text-shadow: 0 0 10px #ffff66;
 } 
