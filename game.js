@@ -222,7 +222,6 @@ function updateStatus(msg) {
     const el = document.getElementById("status");
     if (el) el.innerText = msg;
 }
-}
 
 function connectWebSocket() {
     const socket = new WebSocket("ws://localhost:62024");
@@ -422,6 +421,7 @@ startNewRound = function () {
     originalStartNewRound();
     setTimeout(applyNeonColors, 50);
 }; 
+
 
 
 
