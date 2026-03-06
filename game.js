@@ -134,7 +134,12 @@ function startTimer() {
         if (!hintJSONGiven && timeLeft <= hintJSONMoment) {
             hintJSONGiven = true;
             document.getElementById("hint").innerText = currentHint;
-            applyNeonColors();
+
+            // HINT vizibil, alb, gros
+            const h = document.getElementById("hint");
+            h.style.color = "#ffffff";
+            h.style.fontWeight = "900";
+            h.style.textShadow = "0 0 10px #fff";
         }
 
         if (!hint2Given && elapsed >= 60) {
@@ -179,7 +184,6 @@ function giveHint2() {
     }
 
     updateWordDisplay();
-    applyNeonColors();
 }
 
 // ===============================
@@ -211,7 +215,6 @@ function revealFullWord() {
     const parts = currentWord.split(" ");
     revealed = parts.map(part => part.split(""));
     updateWordDisplay();
-    applyNeonColors();
 }
 
 // ===============================
@@ -221,9 +224,11 @@ function updateStatus(msg) {
     const el = document.getElementById("status");
     if (el) el.innerText = msg;
 
-    // 🔥 Ascunde banda la orice mesaj nou
-    const ticker = document.getElementById("ticker");
-    ticker.style.display = "none";
+    // 🔥 Ascunde banda DOAR la mesaje normale
+    if (!msg.startsWith("GLOBAL:") && !msg.includes("locul") && !msg.includes("nu are puncte")) {
+        const ticker = document.getElementById("ticker");
+        ticker.style.display = "none";
+    }
 }
 
 // ===============================
@@ -316,7 +321,6 @@ function showGlobalLeaderboard() {
 
     updateStatus(text);
 
-    // 🔥 Afișează banda 7 secunde
     const ticker = document.getElementById("ticker");
     ticker.style.display = "block";
     setTimeout(() => ticker.style.display = "none", 7000);
@@ -376,7 +380,7 @@ function randomInt(min, max) {
 }
 
 // ===============================
-// NEON RANDOM
+// NEON RANDOM (HINT EXCLUS)
 // ===============================
 function randomNeonColor() {
     const hue = Math.floor(Math.random() * 360);
@@ -389,8 +393,8 @@ function applyNeonColors() {
         category: document.getElementById("category"),
         timerText: document.getElementById("timer-text"),
         status: document.getElementById("status"),
-        ticker: document.getElementById("ticker"),
-        hint: document.getElementById("hint")
+        ticker: document.getElementById("ticker")
+        // HINT-ul NU mai primește neon
     };
 
     const timerBar = document.getElementById("timer-bar");
